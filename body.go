@@ -30,7 +30,8 @@ func getRequestBody(m map[string]string) (reader io.Reader, size int64) {
 	sign := strings.ToUpper(fmt.Sprintf("%x", signByte))
 	v.Set("sign", sign)
 
-	r := strings.NewReader(v.Encode())
+	var r *strings.Reader
+	r = strings.NewReader(v.Encode())
 
 	return ioutil.NopCloser(r), r.Size()
 }
