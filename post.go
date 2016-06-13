@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+var UseHTTP = false
+
 func DoPost(m map[string]string) (success bool, response string) {
 	if AppKey == "" || AppSecret == "" {
 		return false, "AppKey or AppSecret is requierd!"
@@ -13,7 +15,16 @@ func DoPost(m map[string]string) (success bool, response string) {
 
 	body, size := getRequestBody(m)
 	client := &http.Client{}
-	req, _ := http.NewRequest("POST", URL, body)
+	var req *http.Request
+	var err error
+	if !UseHTTP {
+		req, err = http.NewRequest("POST", URL_HTTPS, body)
+	} else {
+		req, err = http.NewRequest("POST", URL_HTTP, body)
+	}
+	if err != nil {
+		return false, err.Error()
+	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.ContentLength = size
 

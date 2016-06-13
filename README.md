@@ -22,6 +22,7 @@ import (
 func main() {
 	alidayu.AppKey = "...your AppKey..."
 	alidayu.AppSecret = "...your AppSecret..."
+    alidayu.UseHTTP = true // set UseHTTP to true if prefer http over https
 
 	success, resp := alidayu.SendSMS("18888888888", "身份验证", "SMS_4000328", `{"code":"1234","product":"alidayu"}`)
 	fmt.Println("Success:", success)
