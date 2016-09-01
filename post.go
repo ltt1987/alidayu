@@ -29,17 +29,16 @@ func DoPost(m map[string]string) (success bool, response string) {
 	req.ContentLength = size
 
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		response = err.Error()
 		return
 	}
+	defer resp.Body.Close()
 
 	data, _ := ioutil.ReadAll(resp.Body)
 	response = string(data)
 	if strings.Contains(response, "success") {
 		return true, response
-	} else {
-		return false, response
 	}
+	return false, response
 }
